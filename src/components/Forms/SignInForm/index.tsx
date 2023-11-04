@@ -85,11 +85,6 @@ export function SignInForm() {
 
 			<Footer>
 				<FooterButton
-					title='Criar conta'
-					icon='person-add'
-					onPress={() => navigation.navigate('register')}
-				/>
-				<FooterButton
 					title='Esqueci senha'
 					icon='email'
 					onPress={handleForgotPassword}
