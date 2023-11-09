@@ -1,64 +1,141 @@
 import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
+import { formatarData } from '../../../utils/dateTime';
+import { TouchableOpacity } from 'react-native';
 
 import {
-  Container,
-  Status,
-  Content,
-  Header,
-  Title,
-  Label,
-  Info,
-  Footer,
-  OrderStyleProps
+	Container,
+	Status,
+	Content,
+	Header,
+	Title,
+	Label,
+	Info,
+	Footer,
+	OrderStyleProps,
 } from './styles';
 
-
 export type OrderProps = OrderStyleProps & {
-  id: string;
-  patrimony: string;
-  equipment: string;
-  description: string;
-}
-
-type Props = {
-  data: OrderProps;
+	id: string;
+	description: string;
+	observationServiceExecuted?: string;
+	assignedTo: string[];
+	equipaments: string[];
+	images: string[];
+	assignedToAt: Date | null;
+	ticketWasSignedTech: boolean | false;
+	ticketWasSignedUser: boolean | false;
+	closedBy: string | null;
+	closedAt: Date;
+	status: string;
+	timeEstimate: Date | null;
+	isDelay: boolean;
+	userId: string;
+	createdAt: Date;
+	updatedAt: Date;
+	slaDefinitionId: number;
+	ticketCategory: {
+		id: string;
+		name: string;
+		childrenName: string;
+		defaultText: string | null;
+	};
+	ticketLocation: {
+		id: string;
+		name: string;
+	};
+	ticketPriority: {
+		id: string;
+		name: string;
+	};
+	ticketType: {
+		id: string;
+		name: string;
+	};
+	User: {
+		id: string;
+		username: string;
+		name: string;
+		email: string;
+		password: string;
+		phone: string;
+		ramal: string;
+		sector: string;
+		createdAt: Date;
+		updatedAt: Date;
+	};
+	TicketEvaluation: TicketEvaluation[];
+	usedItems: usedItems[];
+	equipmentUsage: equipment[];
 };
 
-export function Order({ data }: Props) {
-  const theme = useTheme();
+type equipment = {
+	equipmentId: string;
+	usageCount: number;
+	equipmentPatrimony: string;
+};
 
-  return (
-    <Container>
-      <Status status={data.status} />
+type usedItems = {
+	cost: number;
+	id: string;
+	name: string;
+	quantity: number;
+};
 
-      <Content>
-        <Header>
-          <Title>Computador Desktop</Title>
-          <MaterialIcons
-            name={data.status === "open" ? "hourglass-empty" : "check-circle"}
-            size={24}
-            color={data.status === "open" ? theme.COLORS.SECONDARY : theme.COLORS.PRIMARY}
-          />
-        </Header>
+type TicketEvaluation = {
+	id: string;
+	rating: number;
+};
 
-        <Footer>
-          <Info>
-            <MaterialIcons name="schedule" size={16} color={theme.COLORS.SUBTEXT} />
-            <Label>
-              20/01/22 às 14h
-            </Label>
-          </Info>
+type Props = {
+	data: OrderProps;
+	onPress: () => void;
+};
 
-          <Info>
-            <MaterialIcons name="my-location" size={16} color={theme.COLORS.SUBTEXT} />
-            <Label>
-              402345
-            </Label>
-          </Info>
-        </Footer>
-      </Content>
-    </Container>
-  );
+export function Order({ data, onPress }: Props) {
+	const theme = useTheme();
+
+	return (
+		<TouchableOpacity onPress={onPress}>
+			<Container>
+				<Status status={data.status} />
+
+				<Content>
+					<Header>
+						<Title>{data.ticketCategory.childrenName}</Title>
+						<MaterialIcons
+							name={data.status === 'new' ? 'hourglass-empty' : 'check-circle'}
+							size={24}
+							color={
+								data.status === 'new'
+									? theme.COLORS.SECONDARY
+									: theme.COLORS.PRIMARY
+							}
+						/>
+					</Header>
+
+					<Footer>
+						<Info>
+							<MaterialIcons
+								name='schedule'
+								size={16}
+								color={theme.COLORS.SUBTEXT}
+							/>
+							<Label>{formatarData(String(data.createdAt))}</Label>
+						</Info>
+
+						<Info>
+							<MaterialIcons
+								name='my-location'
+								size={16}
+								color={theme.COLORS.SUBTEXT}
+							/>
+							<Label>{data.ticketLocation.name}</Label>
+						</Info>
+					</Footer>
+				</Content>
+			</Container>
+		</TouchableOpacity>
+	);
 }
