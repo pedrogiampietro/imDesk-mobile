@@ -19,6 +19,7 @@ export function Orders({ setIsNewOrder }: any) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [tickets, setTickets] = useState<OrderProps[]>([]);
 	const [filteredTickets, setFilteredTickets] = useState<OrderProps[]>([]);
+	const [selectedOrder, setSelectedOrder] = useState<OrderProps | null>(null);
 	const { user } = useAuth();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -67,9 +68,10 @@ export function Orders({ setIsNewOrder }: any) {
 		fetchTickets();
 	}, [user, status]);
 
-	const handleOrderPress = () => {
+	const handleOrderPress = (order: OrderProps) => {
 		console.log('clickei');
 		setIsNewOrder(false);
+		setSelectedOrder(order);
 
 		bottomSheetRef.current?.present();
 	};
@@ -91,7 +93,7 @@ export function Orders({ setIsNewOrder }: any) {
 						data={filteredTickets}
 						keyExtractor={(item) => item.id}
 						renderItem={({ item }) => (
-							<Order data={item} onPress={handleOrderPress} />
+							<Order data={item} onPress={() => handleOrderPress(item)} />
 						)}
 						contentContainerStyle={{ paddingBottom: 100 }}
 						showsVerticalScrollIndicator={false}
