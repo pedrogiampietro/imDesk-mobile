@@ -16,7 +16,6 @@ import Icon from '@expo/vector-icons/MaterialIcons';
 
 export function DetailOrder({ order }: { order: OrderProps | null }) {
 	if (!order) {
-		// Render some placeholder or empty state if no order is selected
 		return (
 			<InfoDescription>Select an order to see the details.</InfoDescription>
 		);

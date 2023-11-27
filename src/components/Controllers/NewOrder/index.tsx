@@ -23,9 +23,8 @@ export function NewOrder() {
 			<BottomSheetModalProvider>
 				<BottomSheetModal
 					ref={bottomSheetRef}
-					snapPoints={['50%']}
-					index={2} // Corrigido para 0, pois há apenas um snapPoint
-					style={{ padding: 24 }}
+					snapPoints={['80%']}
+					style={{ padding: 14 }}
 					enablePanDownToClose={true}
 					backdropComponent={() => <Background />}
 				>

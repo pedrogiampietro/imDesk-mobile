@@ -4,7 +4,7 @@ const limit = 20;
 
 export function apiClient() {
 	const api = axios.create({
-		baseURL: 'http://192.168.1.5:3333',
+		baseURL: 'http://192.168.1.4:3333',
 		headers: {
 			ContentType: 'application/json',
 			Accept: 'application/json',
